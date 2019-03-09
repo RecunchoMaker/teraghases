@@ -7,7 +7,7 @@ OPENCM3_DIR	= ./libopencm3
 
 DEVICE          = stm32f103c8t6
 
-CFLAGS          += -Os -ggdb3
+CFLAGS          += -Os -ggdb3 -std=c99
 CPPFLAGS        += -MD
 LDFLAGS         += -static -nostartfiles
 LDLIBS          += -Wl,--start-group -lm -lc -lgcc -lnosys -Wl,--end-group
@@ -25,3 +25,6 @@ clean:
 include $(OPENCM3_DIR)/mk/genlink-rules.mk
 include $(OPENCM3_DIR)/mk/gcc-rules.mk
 
+
+upload: binary.hex
+	openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "program binary.hex verify reset exit"
