@@ -1,5 +1,5 @@
 OBJS =  $(patsubst %.c,%.o,$(wildcard *.c))
-OBJS +=  $(patsubst src/%.c,src/%.o,$(wildcard src/*.c))
+OBJS += $(patsubst src/%.c,src/%.o,$(wildcard src/*.c))
 OBJS += $(patsubst target/%.c,target/%.o,$(wildcard target/*.c))
 OBJS += $(patsubst printf/%.c,printf/%.o,$(wildcard printf/*.c))
 
