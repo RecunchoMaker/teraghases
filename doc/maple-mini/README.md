@@ -38,4 +38,10 @@
     upload_protocol = dfu
     upload_port = "Maple DFU"
 
+## GCC Makefile
+
+See [test/blink/Makefile](test/blink/Makefile)
+
+It includes a [link script](test/blink/ld/stm32f103c8t6-dfu.ld) modified in order to skip the 8K bootloader.
+
 
