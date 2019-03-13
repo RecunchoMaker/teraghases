@@ -16,7 +16,7 @@ include $(OPENCM3_DIR)/mk/genlink-config.mk
 include $(OPENCM3_DIR)/mk/gcc-config.mk
 
 # caligari: modified link script to ust DFU bootloader 8K (ROM=0x8002000)
-LDSCRIPT	= ld/stm32f103c8t6-dfu.ld
+LDSCRIPT	= ../ld/stm32f103c8t6-dfu-8k.ld
 
 .PHONY: clean all
 

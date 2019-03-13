@@ -4,8 +4,8 @@
 #include <libopencm3/stm32/gpio.h>
 
 
+// 72 MHz / 8
 #define SYSTEM_CLOCK (72000000 / 8)
-
 
 volatile uint32_t msTicks = 0;
 
