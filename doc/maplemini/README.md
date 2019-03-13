@@ -5,6 +5,7 @@
 
 - [Maple Mini at STM32duino](http://wiki.stm32duino.com/index.php?title=Maple_Mini)
 - [STM32duino bootloader](https://github.com/rogerclarkmelbourne/STM32duino-bootloader)
+- [Schematic](maplemini.pdf)
 
 ![Maple Mini pinout](maplemini_pinout.png)
 

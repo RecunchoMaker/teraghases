@@ -1,12 +1,12 @@
 
-# Bluepill module board
+# Blue Pill module board
 
 ## Links
 
-- [Maple Mini at STM32duino](http://wiki.stm32duino.com/index.php?title=Maple_Mini)
-- [STM32duino bootloader](https://github.com/rogerclarkmelbourne/STM32duino-bootloader)
+- [Blue Pill at STM32duino](http://wiki.stm32duino.com/index.php?title=Blue_Pill)
+- [Schematic](bluepill.pdf)
 
-![Bluepill pinout](bluepill_pinout.png)
+![Blue Pill pinout](bluepill_pinout.png)
 
 ## Install USB-DFU bootloader
 
