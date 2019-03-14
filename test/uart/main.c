@@ -20,11 +20,12 @@ void SysTick_Handler(void)
 
 
 // circular TX buffer
-#define TX_BUFFER_SIZE 1000
+#define TX_BUFFER_SIZE 256
 volatile uint8_t tx_buffer[TX_BUFFER_SIZE];
 volatile int tx_buffer_a = 0, tx_buffer_b = 0;
 
 
+// IRQ service
 void usart1_isr()
 {
     // check if TX int is enabled and previous TX completed
@@ -39,28 +40,36 @@ void usart1_isr()
         else
         {
             // send the first byte in circular buffer
-            usart_send(USART1, tx_buffer[++tx_buffer_a]);
+            tx_buffer_a++;
             tx_buffer_a %= TX_BUFFER_SIZE;
+            usart_send(USART1, tx_buffer[tx_buffer_a]);
         }
     }
 }
 
 
-int serial_send(const uint8_t* buffer, int length)
+// put a string buffer in the circular TX buffer
+int serial_send(const uint8_t* buffer, size_t length)
 {
+    // next index in the circular buffer
     int next_idx = (tx_buffer_b + 1) % TX_BUFFER_SIZE;
-    while (length > 0 && next_idx != tx_buffer_a)
+
+    // put bytes in TX buffer until full or no more bytes
+    while (next_idx != tx_buffer_a && length > 0)
     {
         // put byte in the circular buffer
         tx_buffer[next_idx++] = *buffer++;
-        next_idx %= TX_BUFFER_SIZE;
         tx_buffer_b++;
+        next_idx %= TX_BUFFER_SIZE;
         length--;
     }
+
+    tx_buffer_b %= TX_BUFFER_SIZE;
 
     // enable usart1 TX interrupt
     USART_CR1(USART1) |= USART_CR1_TXEIE;
 
+    // return > 0 when buffer overrun
     return length;
 }
 
@@ -112,7 +121,7 @@ int main(void)
             last_second = seconds_now;
             gpio_toggle(GPIOB, GPIO1);
 
-            serial_print("heello there!\n");
+            serial_print("hello there!\n");
         }
     }
 
