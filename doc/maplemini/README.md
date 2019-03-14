@@ -36,8 +36,8 @@
 
 ## GCC Makefile
 
-See [test/blink/Makefile](test/blink/Makefile)
+See [../../test/systick/Makefile](test/systick/Makefile)
 
-It includes a [link script](test/blink/ld/stm32f103c8t6-dfu.ld) modified in order to skip the 8K bootloader.
+It includes a [link script](../../test/ld/stm32f103c8t6-dfu.ld) modified in order to skip the 8K bootloader.
 
 
