@@ -16,7 +16,7 @@ include $(OPENCM3_DIR)/mk/genlink-config.mk
 include $(OPENCM3_DIR)/mk/gcc-config.mk
 
 # caligari: modified link script to use DFU bootloader 8K (ROM=0x8002000)
-LDSCRIPT	= ../ld/stm32f103c8t6-dfu-8k.ld
+#LDSCRIPT	= ../ld/stm32f103c8t6-dfu-8k.ld
 
 .PHONY: clean all
 
@@ -30,6 +30,6 @@ include $(OPENCM3_DIR)/mk/gcc-rules.mk
 
 upload: binary.bin
 # caligari: dfu uploader instead stlink
-#	openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "program binary.hex verify reset exit"
-	dfu-util --reset --alt 2 -D binary.bin	
+	openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "program binary.hex verify reset exit"
+#	dfu-util --reset --alt 2 -D binary.bin	
 
