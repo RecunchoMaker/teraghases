@@ -28,7 +28,7 @@ clean:
 include $(OPENCM3_DIR)/mk/genlink-rules.mk
 include $(OPENCM3_DIR)/mk/gcc-rules.mk
 
-upload: binary.bin
+upload: binary.bin binary.hex
 # caligari: dfu uploader instead stlink
 	openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "program binary.hex verify reset exit"
 #	dfu-util --reset --alt 2 -D binary.bin	
