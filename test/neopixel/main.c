@@ -55,28 +55,28 @@ void spi_dma_write(const uint8_t* buffer, size_t size)
 
 
 
-#define PIXELS 3
+#define PIXELS 7
 #define PIXELS_BYTES (PIXELS * 3)
-#define SPI_SIZE ((PIXELS_BYTES + 1) * 4)
-static uint8_t encoded_bits[SPI_SIZE];
+#define SPI_BUFFER_SIZE ((PIXELS_BYTES + 1) * 4)
+static uint8_t encoded_bits[SPI_BUFFER_SIZE];
 static const uint8_t codex [] = { 0x88, 0x8e, 0xe8, 0xee };
 
 void update_neopixels(const uint8_t* buffer)
 {
-	memset(encoded_bits, 0x00, SPI_SIZE);
-	uint8_t b = 2;
+    memset(encoded_bits, 0x00, SPI_BUFFER_SIZE);
+    uint8_t b = 2;
 
-	for (int c = 0; c < PIXELS_BYTES; c++)
-	{
-		int eightbits = buffer[c];
-		for (int bit = 0; bit < 8; bit += 2)
-		{
-			encoded_bits[b++] = codex[(eightbits & 0xc0) >> 6];
-			eightbits <<= 2;
-		}
-	}
+    for (int c = 0; c < PIXELS_BYTES; c++)
+    {
+        int eightbits = buffer[c];
+        for (int bit = 0; bit < 8; bit += 2)
+        {
+            encoded_bits[b++] = codex[(eightbits & 0xc0) >> 6];
+            eightbits <<= 2;
+        }
+    }
 
-	spi_dma_write(encoded_bits, SPI_SIZE);
+    spi_dma_write(encoded_bits, SPI_BUFFER_SIZE);
 }
 
 
@@ -114,7 +114,7 @@ void setup()
     // systick every millisecond
     SysTick_Config(SYSTEM_CLOCK / 1000);
 
-	setup_spi();
+    setup_spi();
 }
 
 
@@ -122,8 +122,14 @@ int main(void)
 {
     setup();
 
-    uint32_t last_second = 0;
     uint8_t strip[PIXELS_BYTES];
+
+    // turn off
+    memset(strip, 0x00, PIXELS_BYTES);
+    update_neopixels(strip);
+
+    // main loop
+    uint32_t last_second = 0xffffffff;
     while (1)
     {
         uint32_t seconds_now = sysMillis / 1000;
@@ -144,13 +150,13 @@ int main(void)
                     case 2: b = 0x10; break;
                 }
 
-    			// GRB format
+                // GRB format
                 strip[idx++] = g;
                 strip[idx++] = r;
                 strip[idx++] = b;
             }
 
-			// show
+            // show
             update_neopixels(strip);
         }
     }

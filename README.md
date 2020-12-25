@@ -11,6 +11,11 @@
     git submodule init
     git submodule update
 
+## Compile libopencm3
+
+    cd libopencm3 && make
+
+
 
 
 
